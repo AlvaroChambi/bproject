@@ -2,10 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
     defaultConfig {
-        applicationId "achambi.developer.es.bproject"
+        applicationId "es.developer.achambi.bproject"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,9 +21,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    signingConfigs {
+        release
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
+    if (isRunningOnTravis) {
+        // configure keystore
+        signingConfigs.release.storeFile = file("../keystore.jks")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':coreframework')
 }
+apply plugin: 'com.google.gms.google-services'

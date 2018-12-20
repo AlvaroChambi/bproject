@@ -1,4 +1,4 @@
-package es.developer.achambi.bproject;
+package es.developer.achambi.bproject.needlist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
