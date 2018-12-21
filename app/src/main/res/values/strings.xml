@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">bproject</string>
     <string name="login_activity_title">Login</string>
-    <string name="profile_title">Profile</string>
+    <string name="profile_title">Perfil</string>
+    <string name="create_product_title">Crear producto</string>
+    <string name="need_list_title">Lista</string>
 </resources>
