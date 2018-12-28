@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+   <data>
+       <import type="android.view.View"/>
+        <variable
+            name="item"
+            type="es.developer.achambi.bproject.needlist.ListItemPresentation">
+        </variable>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/list_item_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{item.productName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/list_item_product_quantity_title"
+                tools:text="Leche" />
+
+            <TextView
+                android:id="@+id/list_item_product_quantity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/product_quantity_title"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/list_item_product_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.productQuantity}"
+                app:layout_constraintBottom_toBottomOf="@+id/list_item_product_type"
+                app:layout_constraintEnd_toEndOf="@+id/list_item_product_quantity_title"
+                app:layout_constraintStart_toStartOf="@+id/list_item_product_quantity_title"
+                app:layout_constraintTop_toTopOf="@+id/list_item_product_name"
+                tools:text="x2" />
+
+            <TextView
+                android:id="@+id/list_item_product_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.productType}"
+                app:layout_constraintStart_toStartOf="@+id/list_item_product_name"
+                app:layout_constraintTop_toBottomOf="@+id/list_item_product_name"
+                tools:text="Vive soy pascual" />
+
+            <TextView
+                android:id="@+id/list_item_product_recommended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.recommendedPlace}"
+                android:visibility="@{item.recommendedPlace != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/list_item_product_price"
+                app:layout_constraintStart_toStartOf="@+id/list_item_product_type"
+                app:layout_constraintTop_toTopOf="@+id/list_item_product_price"
+                tools:text="Mercadona" />
+
+            <TextView
+                android:id="@+id/list_item_product_price_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_price_title"
+                android:textStyle="bold"
+                android:visibility="@{item.estimatedPrice != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/list_item_product_quantity_title"
+                app:layout_constraintStart_toStartOf="@+id/list_item_product_quantity_title"
+                app:layout_constraintTop_toBottomOf="@+id/list_item_product_type" />
+
+            <TextView
+                android:id="@+id/list_item_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.estimatedPrice}"
+                android:visibility="@{item.estimatedPrice != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/list_item_product_price_title"
+                app:layout_constraintStart_toStartOf="@+id/list_item_product_price_title"
+                app:layout_constraintTop_toBottomOf="@+id/list_item_product_price_title"
+                tools:text="2.50" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>
