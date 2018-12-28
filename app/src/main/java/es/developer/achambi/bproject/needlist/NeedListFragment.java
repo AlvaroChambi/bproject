@@ -2,15 +2,17 @@ package es.developer.achambi.bproject.needlist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 import es.developer.achambi.bproject.R;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
 import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
-import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 
 public class NeedListFragment extends BaseSearchListFragment {
+    private NeedListAdapter adapter;
     public static NeedListFragment newInstance() {
         return new NeedListFragment();
     }
@@ -22,27 +24,35 @@ public class NeedListFragment extends BaseSearchListFragment {
     }
 
     @Override
+    public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewSetup(view, savedInstanceState);
+        ArrayList<ListItemPresentation> items = new ArrayList<>();
+        for( int i = 0; i < 2; i++ ) {
+            items.add( new ListItemPresentation(
+                    i,"Leche","Vive Soy soja", "x2",
+                    "Mercadona", "2.50$"
+            ) );
+        }
+        for( int i = 4; i < 40; i++ ) {
+            items.add( new ListItemPresentation(
+                    i,"Leche","Vive Soy soja", "x2",
+                    null, null
+            ) );
+        }
+        adapter.setData( items );
+        presentAdapterData();
+    }
+
+    @Override
+    protected void overrideRecyclerViewMargins(ViewGroup.MarginLayoutParams marginParams) {
+        marginParams.setMargins(0, 0, 0, 0);
+    }
+
+    @Override
     public SearchAdapterDecorator provideAdapter() {
-        return new SearchAdapterDecorator() {
-            @Override
-            public int getLayoutResource() {
-                return 0;
-            }
-
-            @Override
-            public RecyclerView.ViewHolder createViewHolder(View rootView) {
-                return null;
-            }
-
-            @Override
-            public void bindViewHolder(RecyclerView.ViewHolder holder, SearchListData item) {
-
-            }
-
-            @Override
-            public int getAdapterViewType() {
-                return 0;
-            }
-        };
+        if( adapter == null ) {
+            adapter = new NeedListAdapter();
+        }
+        return adapter;
     }
 }
