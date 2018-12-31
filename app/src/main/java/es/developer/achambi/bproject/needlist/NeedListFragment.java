@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import es.developer.achambi.bproject.R;
+import es.developer.achambi.coreframework.ui.BaseSearchAdapter;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
 import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
+import es.developer.achambi.coreframework.utils.TouchHelper;
 
 public class NeedListFragment extends BaseSearchListFragment {
     private NeedListAdapter adapter;
@@ -41,6 +43,11 @@ public class NeedListFragment extends BaseSearchListFragment {
         }
         adapter.setData( items );
         presentAdapterData();
+    }
+
+    @Override
+    protected TouchHelper provideItemTouchHelper( BaseSearchAdapter adapter ) {
+        return new ItemListTouchHelper( adapter );
     }
 
     @Override
