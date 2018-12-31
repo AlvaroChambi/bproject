@@ -2,6 +2,7 @@ package es.developer.achambi.bproject.needlist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +12,7 @@ import es.developer.achambi.bproject.R;
 import es.developer.achambi.coreframework.ui.BaseSearchAdapter;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
 import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
-import es.developer.achambi.coreframework.utils.TouchHelper;
+import es.developer.achambi.coreframework.utils.SwipeTouchHelperCallback;
 
 public class NeedListFragment extends BaseSearchListFragment {
     private NeedListAdapter adapter;
@@ -41,13 +42,22 @@ public class NeedListFragment extends BaseSearchListFragment {
                     null, null
             ) );
         }
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                this.getActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration( dividerItemDecoration );
         adapter.setData( items );
         presentAdapterData();
     }
 
     @Override
-    protected TouchHelper provideItemTouchHelper( BaseSearchAdapter adapter ) {
-        return new ItemListTouchHelper( adapter );
+    protected SwipeTouchHelperCallback provideItemTouchHelper( BaseSearchAdapter adapter ) {
+        return new SwipeTouchHelperCallback( adapter ) {
+            @Override
+            protected int getViewHolderForegroundResource() {
+                return R.id.list_item_foreground;
+            }
+        };
     }
 
     @Override
