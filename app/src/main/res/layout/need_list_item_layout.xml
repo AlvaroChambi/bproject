@@ -38,7 +38,7 @@
                 android:id="@+id/list_item_product_quantity_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/product_quantity_title"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

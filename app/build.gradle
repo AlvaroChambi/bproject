@@ -51,5 +51,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':coreframework')
+    implementation 'com.google.firebase:firebase-database:16.0.5'
 }
 apply plugin: 'com.google.gms.google-services'

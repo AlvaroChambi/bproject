@@ -6,4 +6,6 @@
     <string name="need_list_title">Lista</string>
     <string name="product_quantity_title">Cantidad</string>
     <string name="product_price_title">Precio</string>
+    <string name="add_to_list_activity_title">Añadir a la lista</string>
+    <string name="item_count_default_value">1</string>
 </resources>
