@@ -49,6 +49,8 @@ public class NeedListFragment extends BaseSearchListFragment {
                     null, null
             ) );
         }
+
+        view.findViewById(R.id.base_search_floating_button).setVisibility(View.VISIBLE);
         view.findViewById(R.id.base_search_floating_button).setOnClickListener( this );
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 this.getActivity(), DividerItemDecoration.VERTICAL);

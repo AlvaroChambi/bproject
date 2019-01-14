@@ -57,7 +57,6 @@ public class AddToListFragment extends BaseSearchListFragment {
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 this.getActivity(), DividerItemDecoration.VERTICAL);
-        view.findViewById(R.id.base_search_floating_button).setVisibility(View.GONE);
         recyclerView.addItemDecoration( dividerItemDecoration );
         adapter.setData( PresentationBuilder.build( presenter.getProducts() ) );
         adapter.setViewClickedListener( presenter );
