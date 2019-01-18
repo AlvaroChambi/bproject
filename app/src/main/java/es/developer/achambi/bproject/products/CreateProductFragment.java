@@ -2,16 +2,20 @@ package es.developer.achambi.bproject.products;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
 import es.developer.achambi.bproject.R;
+import es.developer.achambi.coreframework.threading.Error;
 import es.developer.achambi.coreframework.ui.BaseRequestFragment;
-import es.developer.achambi.coreframework.ui.navigation.NavigationFragment;
+import es.developer.achambi.coreframework.ui.Presenter;
 
-public class CreateProductFragment extends BaseRequestFragment implements View.OnClickListener {
+public class CreateProductFragment extends BaseRequestFragment implements View.OnClickListener,
+        CreateProductPresenter.CreateProductListener {
+    private CreateProductPresenter presenter;
     private EditText productName;
     private EditText productType;
     private View saveButton;
@@ -29,6 +33,14 @@ public class CreateProductFragment extends BaseRequestFragment implements View.O
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.create_product_title);
+    }
+
+    @Override
+    public Presenter setupPresenter() {
+        if( presenter == null ) {
+            presenter = new CreateProductPresenter(this);
+        }
+        return presenter;
     }
 
     @Override
@@ -66,6 +78,23 @@ public class CreateProductFragment extends BaseRequestFragment implements View.O
     public void onClick(View view) {
         if( view.getId() == R.id.create_save_button ) {
             startLoading();
+            presenter.saveProduct( productName.getText().toString(),
+                    productType.getText().toString() );
         }
+    }
+
+    @Override
+    public void onCreateProductSuccess() {
+        hideLoading();
+        Snackbar snackbar = Snackbar.make( getView(),
+                R.string.create_product_success_message, Snackbar.LENGTH_LONG );
+        snackbar.show();
+        productName.getText().clear();
+        productType.getText().clear();
+    }
+
+    @Override
+    public void onCreateProductError(Error error) {
+        showError(error);
     }
 }

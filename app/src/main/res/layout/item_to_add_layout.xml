@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="item"
-            type="es.developer.achambi.bproject.add.AddItemPresentation">
+            type="es.developer.achambi.bproject.add.ItemPresentation">
         </variable>
     </data>
     <android.support.constraint.ConstraintLayout
@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
+            android:textStyle="bold"
             android:text="@{item.productName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

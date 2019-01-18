@@ -29,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{item.productName}"
+                android:text="@{item.itemPresentation.productName}"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/list_item_product_quantity_title"
                 tools:text="Leche" />
@@ -60,7 +61,7 @@
                 android:id="@+id/list_item_product_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.productType}"
+                android:text="@{item.itemPresentation.productType}"
                 app:layout_constraintStart_toStartOf="@+id/list_item_product_name"
                 app:layout_constraintTop_toBottomOf="@+id/list_item_product_name"
                 tools:text="Vive soy pascual" />

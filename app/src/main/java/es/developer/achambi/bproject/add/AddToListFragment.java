@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 
 import es.developer.achambi.bproject.R;
 import es.developer.achambi.bproject.databinding.ItemToAddLayoutBinding;
+import es.developer.achambi.bproject.needlist.ListProduct;
 import es.developer.achambi.bproject.needlist.NeedListFragment;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
 import es.developer.achambi.coreframework.ui.Presenter;
@@ -43,12 +46,16 @@ public class AddToListFragment extends BaseSearchListFragment {
         return presenter;
     }
 
-    public void returnSelectedProduct(Product product) {
+    public void returnSelectedProduct(ListProduct product) {
         Intent dataIntent = getActivity().getIntent();
         dataIntent.putExtra(NeedListFragment.ADD_PRODUCT_DATA_KEY, product);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);
         getActivity().finish();
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     }
 
     @Override
@@ -58,8 +65,12 @@ public class AddToListFragment extends BaseSearchListFragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 this.getActivity(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration( dividerItemDecoration );
-        adapter.setData( PresentationBuilder.build( presenter.getProducts() ) );
         adapter.setViewClickedListener( presenter );
+        presenter.getProducts();
+    }
+
+    public void onDataReceived(ArrayList<Product> products) {
+        adapter.setData( ItemPresentation.Builder.build( products ) );
         presentAdapterData();
     }
 
@@ -68,21 +79,7 @@ public class AddToListFragment extends BaseSearchListFragment {
         marginParams.setMargins(0, 0, 0, 0);
     }
 
-    static class PresentationBuilder {
-        static ArrayList<AddItemPresentation> build(ArrayList<Product> products) {
-                ArrayList<AddItemPresentation> presentations = new ArrayList<>();
-                for (Product product : products) {
-                    presentations.add( new AddItemPresentation(
-                            product.getId(),
-                            product.getProductName(),
-                            product.getProductType()
-                    ) );
-                }
-                return presentations;
-        }
-    }
-
-    class AddListAdapter extends SearchAdapterDecorator<AddItemPresentation, ViewHolder> {
+    class AddListAdapter extends SearchAdapterDecorator<ItemPresentation, ViewHolder> {
 
         @Override
         public int getLayoutResource() {
@@ -96,7 +93,7 @@ public class AddToListFragment extends BaseSearchListFragment {
         }
 
         @Override
-        public void bindViewHolder(ViewHolder holder, AddItemPresentation item) {
+        public void bindViewHolder(ViewHolder holder, ItemPresentation item) {
             holder.binding.setItem( item );
         }
 
