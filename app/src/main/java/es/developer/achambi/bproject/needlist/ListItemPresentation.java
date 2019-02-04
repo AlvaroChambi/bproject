@@ -45,6 +45,10 @@ public class ListItemPresentation implements SearchListData {
         return R.id.list_item_view_id;
     }
 
+    public long getRealId() {
+        return itemPresentation.getRealId();
+    }
+
     @Override
     public int getId() {
         return itemPresentation.getId();

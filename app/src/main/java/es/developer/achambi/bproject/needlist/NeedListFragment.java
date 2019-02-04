@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -71,11 +72,16 @@ public class NeedListFragment extends BaseSearchListFragment
     }
 
     @Override
-    protected SwipeTouchHelperCallback provideItemTouchHelper( BaseSearchAdapter adapter ) {
+    protected SwipeTouchHelperCallback provideItemTouchHelper(final BaseSearchAdapter adapter ) {
         return new SwipeTouchHelperCallback( adapter ) {
             @Override
             protected int getViewHolderForegroundResource() {
                 return R.id.list_item_foreground;
+            }
+
+            @Override
+            protected void onItemSwiped(RecyclerView.ViewHolder viewHolder) {
+                presenter.deleteEntry(items.get(viewHolder.getAdapterPosition()));
             }
         };
     }

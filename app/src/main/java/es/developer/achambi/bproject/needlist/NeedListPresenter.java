@@ -18,24 +18,36 @@ public class NeedListPresenter extends Presenter implements  ValueEventListener 
         void onError(Error error);
     }
     private static final String LISTS_ROOT_PATH = "groups/";
-    private static final String GRUPO_KEY = "group0";
+    private static final String GROUP_KEY = "group0";
 
     private DatabaseReference dbReference;
     private OnDataRetrievedListener listener;
+    private DataSnapshot dataSnapshot;
+    private ArrayList<ListProduct> products;
 
     public NeedListPresenter(OnDataRetrievedListener listener) {
         this.listener = listener;
         dbReference = FirebaseDatabase.getInstance()
-                .getReference( LISTS_ROOT_PATH + GRUPO_KEY );
+                .getReference( LISTS_ROOT_PATH + GROUP_KEY);
     }
 
     public void fetchProductsList() {
         dbReference.addValueEventListener( this );
     }
 
+    public void deleteEntry(ListItemPresentation presentation) {
+        for( DataSnapshot item : dataSnapshot.getChildren() ) {
+            ListProduct product = item.getValue(ListProduct.class);
+            if( presentation.getRealId() == product.getId() ) {
+                item.getRef().removeValue();
+            }
+        }
+    }
+
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        ArrayList<ListProduct> products = new ArrayList<>();
+        this.dataSnapshot = dataSnapshot;
+        products = new ArrayList<>();
         for (DataSnapshot item : dataSnapshot.getChildren()) {
             products.add( item.getValue(ListProduct.class) );
         }
