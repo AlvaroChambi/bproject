@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,17 +15,20 @@ import java.util.ArrayList;
 
 import es.developer.achambi.bproject.R;
 import es.developer.achambi.bproject.add.AddToListActivity;
-import es.developer.achambi.bproject.add.Product;
 import es.developer.achambi.coreframework.ui.BaseSearchAdapter;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
+import es.developer.achambi.coreframework.ui.Presenter;
 import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
 import es.developer.achambi.coreframework.utils.SwipeTouchHelperCallback;
 
-public class NeedListFragment extends BaseSearchListFragment {
+public class NeedListFragment extends BaseSearchListFragment
+        implements NeedListPresenter.OnDataRetrievedListener {
     public static String ADD_PRODUCT_DATA_KEY = "ADD_PRODUCT_DATA_KEY";
     private static int ADD_PRODUCT_RESULT_CODE = 101;
     private NeedListAdapter adapter;
     private ArrayList<ListItemPresentation> items;
+    private NeedListPresenter presenter;
+
     public static NeedListFragment newInstance() {
         return new NeedListFragment();
     }
@@ -34,29 +40,26 @@ public class NeedListFragment extends BaseSearchListFragment {
     }
 
     @Override
+    public Presenter setupPresenter() {
+        if( presenter == null ) {
+            presenter = new NeedListPresenter(this);
+        }
+        return presenter;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    }
+
+    @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        items = new ArrayList<>();
-        for( int i = 0; i < 2; i++ ) {
-            items.add( new ListItemPresentation(
-                    i,"Leche","Vive Soy soja", "x2",
-                    "Mercadona", "2.50"
-            ) );
-        }
-        for( int i = 4; i < 40; i++ ) {
-            items.add( new ListItemPresentation(
-                    i,"Leche","Vive Soy soja", "x2",
-                    null, null
-            ) );
-        }
-
         view.findViewById(R.id.base_search_floating_button).setVisibility(View.VISIBLE);
         view.findViewById(R.id.base_search_floating_button).setOnClickListener( this );
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 this.getActivity(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration( dividerItemDecoration );
-        adapter.setData( items );
-        presentAdapterData();
+        presenter.fetchProductsList();
     }
 
     @Override
@@ -69,11 +72,16 @@ public class NeedListFragment extends BaseSearchListFragment {
     }
 
     @Override
-    protected SwipeTouchHelperCallback provideItemTouchHelper( BaseSearchAdapter adapter ) {
+    protected SwipeTouchHelperCallback provideItemTouchHelper(final BaseSearchAdapter adapter ) {
         return new SwipeTouchHelperCallback( adapter ) {
             @Override
             protected int getViewHolderForegroundResource() {
                 return R.id.list_item_foreground;
+            }
+
+            @Override
+            protected void onItemSwiped(RecyclerView.ViewHolder viewHolder) {
+                presenter.deleteEntry(items.get(viewHolder.getAdapterPosition()));
             }
         };
     }
@@ -91,24 +99,23 @@ public class NeedListFragment extends BaseSearchListFragment {
         return adapter;
     }
 
-    static class PresentationBuilder {
-        static ListItemPresentation build( Product product ) {
-            return new ListItemPresentation(
-                    product.getId(),
-                    product.getProductName(),
-                    product.getProductType(),
-                    "x" + String.valueOf( product.getCount() ),
-                    null, null
-            );
-        }
+    @Override
+    public void onSuccess(ArrayList<ListProduct> products) {
+        items = ListItemPresentation.Builder.build(products);
+        adapter.setData( items );
+        presentAdapterData();
+    }
+
+    @Override
+    public void onError(Error error) {
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if( requestCode == ADD_PRODUCT_RESULT_CODE && resultCode == Activity.RESULT_OK  ) {
-            Product product = data.getParcelableExtra(ADD_PRODUCT_DATA_KEY);
-            items.add( PresentationBuilder.build( product ) );
+            ListProduct product = data.getParcelableExtra(ADD_PRODUCT_DATA_KEY);
+            items.add( ListItemPresentation.Builder.build( product ) );
             adapter.setData( items );
             presentAdapterData();
         }

@@ -8,4 +8,11 @@
     <string name="product_price_title">Precio</string>
     <string name="add_to_list_activity_title">Añadir a la lista</string>
     <string name="item_count_default_value">1</string>
+    <string name="create_product_header_text">Datos del producto</string>
+    <string name="create_product_save_text">Guardar</string>
+    <string name="create_product_name_label">Nombre del producto</string>
+    <string name="create_product_type_label">Tipo del producto</string>
+    <string name="create_product_name_hint">Arroz</string>
+    <string name="create_product_type_hint">Grano largo</string>
+    <string name="create_product_success_message">Producto creado con exito!</string>
 </resources>

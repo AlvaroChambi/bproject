@@ -4,21 +4,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Product implements Parcelable {
-    private int id;
+    private long id;
     private String productName;
     private String productType;
-    private int count;
 
-    public Product(int id) {
-        count = 0;
+    public Product() {
+
+    }
+
+    public Product(long id) {
         this.id = id;
     }
 
     protected Product(Parcel in) {
-        id = in.readInt();
+        id = in.readLong();
         productName = in.readString();
         productType = in.readString();
-        count = in.readInt();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -33,7 +34,7 @@ public class Product implements Parcelable {
         }
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -53,14 +54,6 @@ public class Product implements Parcelable {
         this.productType = productType;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -68,9 +61,8 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeLong(id);
         parcel.writeString(productName);
         parcel.writeString(productType);
-        parcel.writeInt(count);
     }
 }
