@@ -23,7 +23,6 @@ public class NeedListPresenter extends Presenter implements  ValueEventListener 
     private DatabaseReference dbReference;
     private OnDataRetrievedListener listener;
     private DataSnapshot dataSnapshot;
-    private ArrayList<ListProduct> products;
 
     public NeedListPresenter(OnDataRetrievedListener listener) {
         this.listener = listener;
@@ -38,7 +37,7 @@ public class NeedListPresenter extends Presenter implements  ValueEventListener 
     public void deleteEntry(ListItemPresentation presentation) {
         for( DataSnapshot item : dataSnapshot.getChildren() ) {
             ListProduct product = item.getValue(ListProduct.class);
-            if( presentation.getRealId() == product.getId() ) {
+            if( presentation.getId() == product.getId() ) {
                 item.getRef().removeValue();
             }
         }
@@ -47,7 +46,7 @@ public class NeedListPresenter extends Presenter implements  ValueEventListener 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         this.dataSnapshot = dataSnapshot;
-        products = new ArrayList<>();
+        ArrayList<ListProduct> products = new ArrayList<>();
         for (DataSnapshot item : dataSnapshot.getChildren()) {
             products.add( item.getValue(ListProduct.class) );
         }

@@ -41,17 +41,13 @@ public class ItemPresentation implements SearchListData {
         return formatted;
     }
 
-    public long getRealId() {
-        return id;
-    }
-
     @Override
     public int getViewType() {
         return 0;
     }
 
     @Override
-    public int getId() {
-        return (int)id;
+    public long getId() {
+        return id;
     }
 }

@@ -51,7 +51,7 @@ public class AddToListPresenter extends Presenter
 
     private Product findProduct(ItemPresentation item) {
         for( Product product: products ) {
-            if( item.getRealId() == product.getId() ) {
+            if( item.getId() == product.getId() ) {
                 return product;
             }
         }
