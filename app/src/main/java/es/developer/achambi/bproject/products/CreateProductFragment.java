@@ -1,17 +1,20 @@
 package es.developer.achambi.bproject.products;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import es.developer.achambi.bproject.R;
 import es.developer.achambi.coreframework.threading.Error;
 import es.developer.achambi.coreframework.ui.BaseRequestFragment;
 import es.developer.achambi.coreframework.ui.Presenter;
+import es.developer.achambi.coreframework.utils.WindowUtils;
 
 public class CreateProductFragment extends BaseRequestFragment implements View.OnClickListener,
         CreateProductPresenter.CreateProductListener {
@@ -78,8 +81,10 @@ public class CreateProductFragment extends BaseRequestFragment implements View.O
     public void onClick(View view) {
         if( view.getId() == R.id.create_save_button ) {
             startLoading();
+            WindowUtils.hideSoftKeyboard( getActivity() );
             presenter.saveProduct( productName.getText().toString(),
                     productType.getText().toString() );
+
         }
     }
 

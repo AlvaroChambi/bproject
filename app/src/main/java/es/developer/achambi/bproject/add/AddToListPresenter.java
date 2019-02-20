@@ -23,7 +23,7 @@ public class AddToListPresenter extends Presenter
         ValueEventListener{
     private static final String PRODUCTS_PATH = "/products";
     private static final String LISTS_ROOT_PATH = "/groups/";
-    private static final String GRUPO_KEY = "group0";
+    private static final String GROUP_KEY = "group0";
     private ArrayList<Product> products;
     private AddToListFragment screen;
 
@@ -37,11 +37,18 @@ public class AddToListPresenter extends Presenter
 
     private void addItemToList( ListProduct product ) {
         addProductReference = FirebaseDatabase.getInstance()
-                .getReference( LISTS_ROOT_PATH + GRUPO_KEY );
+                .getReference( LISTS_ROOT_PATH + GROUP_KEY);
         addProductReference.addChildEventListener(this);
         addProductReference.push().setValue(product);
     }
 
+    public void queryProducts( String query ) {
+        DatabaseReference queryReference = FirebaseDatabase.getInstance()
+                .getReference( PRODUCTS_PATH);
+        queryReference.orderByChild("productName")
+                .startAt(query.toLowerCase()).endAt(query.toLowerCase()+"\uf8ff")
+                .addListenerForSingleValueEvent( this );
+    }
 
     public void getProducts() {
         getProductsReference = FirebaseDatabase.getInstance()

@@ -55,7 +55,13 @@ public class AddToListFragment extends BaseSearchListFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onQueryTextChanged(String newText) {
+        presenter.queryProducts( newText );
+    }
+
+    @Override
+    public void onSearchFinished() {
+        presenter.getProducts();
     }
 
     @Override

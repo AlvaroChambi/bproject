@@ -34,8 +34,8 @@ public class CreateProductPresenter extends Presenter implements ChildEventListe
         addProductReference.addChildEventListener(this);
         Date timestamp = new Date();
         Product product = new Product(timestamp.getTime());
-        product.setProductType(productType);
-        product.setProductName(productName);
+        product.setProductType(productType.toLowerCase());
+        product.setProductName(productName.toLowerCase());
         addProductReference.push().setValue(product);
     }
 
