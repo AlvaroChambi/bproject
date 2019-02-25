@@ -34,10 +34,10 @@ public class NeedListPresenter extends Presenter implements  ValueEventListener 
         dbReference.addValueEventListener( this );
     }
 
-    public void deleteEntry(ListItemPresentation presentation) {
+    public void deleteEntry(long id) {
         for( DataSnapshot item : dataSnapshot.getChildren() ) {
             ListProduct product = item.getValue(ListProduct.class);
-            if( presentation.getId() == product.getId() ) {
+            if( id == product.getId() ) {
                 item.getRef().removeValue();
             }
         }

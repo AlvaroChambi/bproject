@@ -81,7 +81,7 @@ public class NeedListFragment extends BaseSearchListFragment
 
             @Override
             protected void onItemSwiped(RecyclerView.ViewHolder viewHolder) {
-                presenter.deleteEntry(items.get(viewHolder.getAdapterPosition()));
+                presenter.deleteEntry( adapter.getItemId(viewHolder.getAdapterPosition()) );
             }
         };
     }
